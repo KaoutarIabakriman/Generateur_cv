@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet">
-    <title>Stages</title>
+    <title>Projets</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -39,52 +39,58 @@
             exit();
         }
         ?>
-        <form id="cvForm" action="../../BD/Internships.php" method="POST" enctype="multipart/form-data">
+        <form id="cvForm" action="../../BD/Projects.php" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="action" value="insert">
         <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
+
             <div class="step" id="step-2">
                 <div class="grid md:grid-cols-1 gap-6">
                     <div>
-                        <label class="block mb-3 text-sm font-medium text-cyan-700">Stages</label>
-                        <div id="internshipContainer"></div>
-                        <button type="button" class="bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-3 rounded-lg flex items-center gap-2 mt-2" onclick="addInternshipField()">
-                            <i class="fas fa-plus"></i> Ajouter un stage
+                        <label class="block mb-3 text-sm font-medium text-cyan-700">Projets</label>
+                        <div id="projectContainer"></div>
+                        <button type="button" class="bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-3 rounded-lg flex items-center gap-2 mt-2" onclick="addProjectField()">
+                            <i class="fas fa-plus"></i> Ajouter un projet
                         </button>
                     </div>
                 </div>
                 <div class="mt-6 flex justify-between">
-                    <a href="../Projects/projects.php" class="prev bg-gray-300 hover:bg-gray-400 text-gray-700 px-6 py-3 rounded-lg focus:outline-none">Précédent</a>
-                    <a href="../Compet/compet.php" class="prev bg-gray-300 hover:bg-gray-400 text-gray-700 px-6 py-3 rounded-lg focus:outline-none">Suivant</a>
+                    <a href="../utilisateur/users.php" class="prev bg-gray-300 hover:bg-gray-400 text-gray-700 px-6 py-3 rounded-lg focus:outline-none">Précédent</a>
+                    <a href="../StageForm/stage.php" class="prev bg-gray-300 hover:bg-gray-400 text-gray-700 px-6 py-3 rounded-lg focus:outline-none">Suivant</a>
+
                 </div>
             </div>
         </form>
     </div>
 
     <script>
-        function addInternshipField() {
-            const internshipContainer = document.getElementById('internshipContainer');
-            const internshipField = document.createElement('div');
-            internshipField.className = 'form-group border p-4 mb-4 rounded-lg shadow-sm bg-gray-100';
-            internshipField.innerHTML = `
+        function addProjectField() {
+            const projectContainer = document.getElementById('projectContainer');
+            const projectField = document.createElement('div');
+            projectField.className = 'form-group border p-4 mb-4 rounded-lg shadow-sm bg-gray-100';
+            projectField.innerHTML = `
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
-                        <label class="font-medium text-cyan-700 block mb-2">Nom du stage</label>
-                        <input type="text" name="internshipNames[]" class="w-full px-4 py-2 border-2 border-cyan-500 rounded-xl focus:ring-2 focus:ring-cyan-300 outline-none" required>
+                        <label class="font-medium text-cyan-700 block mb-2">Nom du projet</label>
+                        <input type="text" name="projectNames[]" class="w-full px-4 py-2 border-2 border-cyan-500 rounded-xl focus:ring-2 focus:ring-cyan-300 outline-none" required>
                     </div>
                     <div>
-                        <label class="font-medium text-cyan-700 block mb-2">Période</label>
-                        <input type="text" name="internshipPeriod[]" class="w-full px-4 py-2 border-2 border-cyan-500 rounded-xl focus:ring-2 focus:ring-cyan-300 outline-none" placeholder="Ex: Juin - Août 2023" required>
+                        <label class="font-medium text-cyan-700 block mb-2">Date du projet</label>
+                        <input type="date" name="experienceDates[]" class="w-full px-4 py-2 border-2 border-cyan-500 rounded-xl focus:ring-2 focus:ring-cyan-300 outline-none" required>
                     </div>
                     <div>
-                        <label class="font-medium text-cyan-700 block mb-2">Lieu</label>
-                        <input type="text" name="internshipLocation[]" class="w-full px-4 py-2 border-2 border-cyan-500 rounded-xl focus:ring-2 focus:ring-cyan-300 outline-none" required>
+                        <label class="font-medium text-cyan-700 block mb-2">Type de projet</label>
+                        <select name="projectTypes[]" class="w-full px-4 py-2 border-2 border-cyan-500 rounded-xl focus:ring-2 focus:ring-cyan-300 outline-none" required>
+                            <option value="academic">Académique</option>
+                            <option value="personal">Personnel</option>
+                            <option value="volunteering">Bénévolat</option>
+                        </select>
                     </div>
                 </div>
                 <button type="button" class="bg-blue-500 hover:bg-blue-800 text-white py-2 px-4 rounded-lg flex items-center gap-2 mt-2" onclick="removeField(this)">
                     <i class="fas fa-trash"></i> Supprimer
                 </button>
             `;
-            internshipContainer.appendChild(internshipField);
+            projectContainer.appendChild(projectField);
         }
 
         function removeField(button) {

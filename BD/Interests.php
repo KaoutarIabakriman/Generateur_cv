@@ -27,6 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if ($action === 'insert') {
         $user_id = htmlspecialchars($_POST['user_id'] ?? '');
+        
         $data = [
             'interet' => htmlspecialchars($_POST['interet'] ?? '')
         ];

@@ -32,7 +32,17 @@
 </head>
 <body class="bg-gradient-to-br from-cyan-50 to-cyan-100 min-h-screen flex items-center justify-center p-4">
     <div class="bg-white shadow-2xl rounded-3xl w-full max-w-4xl p-6">
-        <form id="cvForm" action="../CentreIntr/interests.php" method="POST" enctype="multipart/form-data">
+    <?php
+        session_start();
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ../Authentification/login.php');
+            exit();
+        }
+        ?>
+        <form id="cvForm" action="../../BD/Education.php" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="action" value="insert">
+        <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
+
         <div class="step" id="step-4">
                     <div class="mt-6 bg-white p-6 rounded-lg shadow-md">
                         <label class="block text-lg font-medium text-gray-700">Formations</label>
@@ -42,7 +52,7 @@
                         </button>
                     </div>
                     <div class="mt-6 flex justify-between">
-                    <a href="../CompetLang/compet.php" class="bg-gray-300 hover:bg-gray-400 text-gray-700 px-6 py-3 rounded-lg">Précédent</a>
+                    <a href="../Lang/lang.php" class="bg-gray-300 hover:bg-gray-400 text-gray-700 px-6 py-3 rounded-lg">Précédent</a>
                     <a href="../CentreIntr/interests.php" class="bg-cyan-500 text-white px-6 py-3 rounded-lg hover:bg-cyan-600">Suivant</a>
                     </div>
                 </div>

@@ -33,7 +33,16 @@
 <body class="bg-gradient-to-br border border from-cyan-50 to-cyan-100 min-h-screen flex items-center justify-center p-4">
     
 <div class="bg-white jcc shadow-2xl rounded-3xl w-full max-w-4xl overflow-hidden">
-    <form id="cvForm" action="../StageForm/stage.php" method="POST" enctype="multipart/form-data">
+<?php
+        session_start();
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ../Authentification/login.php');
+            exit();
+        }
+        ?>
+    <form id="cvForm" action="../../BD/Utilisateur.php" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="action" value="insert">
+    <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
         <div class="p-12">
             <div class="grid md:grid-cols-2 gap-6">
                 <div>
@@ -74,7 +83,7 @@
             </div>
             <div class="mt-6 flex justify-end">
             <div class="mt-6 flex justify-between">
-                        <a href="../StageForm/stage.php" class="next bg-cyan-500 text-white px-6 py-3 rounded-lg hover:bg-cyan-600 focus:outline-none">Suivant</a>
+                        <a href="../Projects/projects.php" class="next bg-cyan-500 text-white px-6 py-3 rounded-lg hover:bg-cyan-600 focus:outline-none">Suivant</a>
                     </div>
             </div>
         </div>
