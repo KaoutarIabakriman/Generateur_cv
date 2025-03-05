@@ -39,30 +39,33 @@
             exit();
         }
         ?>
+        
         <form id="cvForm" action="../../BD/Skills.php" method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="action" value="insert">
-        <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
+    <input type="hidden" name="action" value="insert">
+    <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
 
-            <div class="step" id="step-3">
-                
-                <!-- Type de compétence -->
-                <div class="mt-6">
-                    <label class="block text-sm font-medium text-cyan-700">Type de compétence</label>
-                    <select id="competencesType" class="w-full px-4 py-3 border-2 border-cyan-500 rounded-xl focus:ring-2 focus:ring-cyan-300" onchange="addSkillField()">
-                        <option value="">Sélectionner</option>
-                        <option value="technical">Compétences Techniques</option>
-                        <option value="behavioral">Compétences Comportementales</option>
-                    </select>
-                </div>
-                <div id="skillsContainer" class="mt-4 space-y-4"></div>
+    <div class="step" id="step-3">
+        
+        <!-- Type de compétence -->
+        <div class="mt-6">
+            <label class="block text-sm font-medium text-cyan-700">Type de compétence</label>
+            <select id="competencesType" class="w-full px-4 py-3 border-2 border-cyan-500 rounded-xl focus:ring-2 focus:ring-cyan-300" onchange="addSkillField()">
+                <option value="">Sélectionner</option>
+                <option value="technical">Compétences Techniques</option>
+                <option value="behavioral">Compétences Comportementales</option>
+            </select>
+        </div>
+        <div id="skillsContainer" class="mt-4 space-y-4"></div>
 
-                <!-- Boutons navigation -->
-                <div class="mt-6 flex justify-between">
-                        <a href="../StageForm/stage.php"    class="prev bg-gray-300 hover:bg-gray-400 text-gray-700 px-6 py-3 rounded-lg focus:outline-none">Précédent</a>
-                        <a href="../Lang/lang.php" class="next bg-cyan-500 text-white px-6 py-3 rounded-lg hover:bg-cyan-600 focus:outline-none">Suivant</a>
-                    </div>
-            </div>
-        </form>
+        <!-- Boutons navigation -->
+        <div class="mt-6 flex justify-between">
+            <a href="../StageForm/stage.php" class="prev bg-gray-300 hover:bg-gray-400 text-gray-700 px-6 py-3 rounded-lg focus:outline-none">Précédent</a>
+            <button type="submit" name="submit" class="prev bg-gray-300 hover:bg-gray-400 text-gray-700 px-6 py-3 rounded-lg focus:outline-none">Suivant</button>
+
+        </div>
+    </div>
+</form>
+
     </div>
 
     <script>

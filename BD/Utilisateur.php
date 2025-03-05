@@ -1,96 +1,43 @@
 <?php
-require 'connexion.php';
+session_start();
+require_once 'connexion.php'; // Inclure votre fichier de connexion à la base de données
 
-function insertUser($pdo, $data) {
-    $stmt = $pdo->prepare("INSERT INTO users (nom, prenom, adresse, telephone, email, photo) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->execute([
-        $data['nom'],
-        $data['prenom'],
-        $data['adresse'],
-        $data['telephone'],
-        $data['email'],
-        $data['photo']
+// Vérifiez que l'utilisateur est connecté
+if (isset($_SESSION['user_id'])) {
+    $user_id = $_SESSION['user_id'];
+
+    // Vérification si l'action est 'insert'
+    if ($_POST['action'] == 'insert') {
+        // Récupérer les données du formulaire
+        $nom = $_POST['nom'];
+        $prenom = $_POST['prenom'];
+        $telephone = $_POST['telephone'];
+        $email = $_POST['email'];
+        $adresse = $_POST['adresse'];
         
-    ]);
-    return $pdo->lastInsertId();
-}
+        // Traitement de l'upload de la photo
+        $photo = null;
+        if (!empty($_FILES['photo']['name'])) {
+            $target_dir = "uploads/";
+            $photo_name = time() . "_" . basename($_FILES["photo"]["name"]);
+            $target_file = $target_dir . $photo_name;
+            $allowed_types = ['image/jpeg', 'image/png', 'image/gif'];
 
-function deleteUser($pdo, $user_id) {
-    $stmt = $pdo->prepare("DELETE FROM users WHERE id = ?");
-    $stmt->execute([$user_id]);
-}
-
-function updateUser($pdo, $user_id, $data) {
-    $stmt = $pdo->prepare("UPDATE users SET nom = ?, prenom = ?, adresse = ?, telephone = ?, email = ?, photo = ? WHERE id = ?");
-    $stmt->execute([
-        $data['nom'],
-        $data['prenom'],
-        $data['adresse'],
-        $data['telephone'],
-        $data['email'],
-        $data['photo'],
-        $user_id
-    ]);
-}
-
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $action = $_POST['action'] ?? '';
-
-    if ($action === 'insert') {
-        $data = [
-            'nom' => htmlspecialchars($_POST['nom'] ?? ''),
-            'prenom' => htmlspecialchars($_POST['prenom'] ?? ''),
-            'adresse' => htmlspecialchars($_POST['adresse'] ?? ''),
-            'telephone' => htmlspecialchars($_POST['telephone'] ?? ''),
-            'email' => htmlspecialchars($_POST['email'] ?? ''),
-            'photo' => htmlspecialchars($_POST['photo'] ?? '')
-        ];
-
-        try {
-            $pdo->beginTransaction();
-            $user_id = insertUser($pdo, $data);
-            $pdo->commit();
-            echo "User inserted with ID: " . $user_id;
-        } catch (Exception $e) {
-            $pdo->rollBack();
-            die("Erreur lors de l'insertion : " . $e->getMessage());
+            if (in_array($_FILES["photo"]["type"], $allowed_types) && move_uploaded_file($_FILES["photo"]["tmp_name"], $target_file)) {
+                $photo = $target_file;
+            } else {
+                die("Erreur lors du téléchargement de l'image.");
+            }
         }
-    } elseif ($action === 'delete') {
-        $user_id = htmlspecialchars($_POST['user_id'] ?? '');
 
-        try {
-            $pdo->beginTransaction();
-            deleteUser($pdo, $user_id);
-            $pdo->commit();
-            echo "User deleted with ID: " . $user_id;
-        } catch (Exception $e) {
-            $pdo->rollBack();
-            die("Erreur lors de la suppression : " . $e->getMessage());
-        }
-    } elseif ($action === 'update') {
-        $user_id = htmlspecialchars($_POST['user_id'] ?? '');
-        $data = [
-            'nom' => htmlspecialchars($_POST['nom'] ?? ''),
-            'prenom' => htmlspecialchars($_POST['prenom'] ?? ''),
-            'adresse' => htmlspecialchars($_POST['adresse'] ?? ''),
-            'telephone' => htmlspecialchars($_POST['telephone'] ?? ''),
-            'email' => htmlspecialchars($_POST['email'] ?? ''),
-            'photo' => htmlspecialchars($_POST['photo'] ?? '')
-        ];
+        // Insertion dans la base de données
+        $sql = "UPDATE users SET nom = ?, prenom = ?, telephone = ?, email = ?, adresse = ?, photo = ? WHERE id = ?";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$nom, $prenom, $telephone, $email, $adresse, $photo, $user_id]);
 
-        try {
-            $pdo->beginTransaction();
-            updateUser($pdo, $user_id, $data);
-            $pdo->commit();
-            echo "User updated with ID: " . $user_id;
-        } catch (Exception $e) {
-            $pdo->rollBack();
-            die("Erreur lors de la modification : " . $e->getMessage());
-        }
-    } else {
-        die("Action non reconnue.");
+        // Rediriger vers la page suivante (Projets)
+        header('Location: ../IHM/Projects/projects.php');
+        exit();
     }
-} else {
-    die("Méthode de requête non supportée.");
 }
 ?>

@@ -1,84 +1,40 @@
 <?php
-require 'connexion.php';
+session_start();
+require_once 'connexion.php'; // Inclure votre fichier de connexion à la base de données
 
-function insertProject($pdo, $user_id, $data) {
-    $stmt = $pdo->prepare("INSERT INTO projects (user_id, nom, date_projet, type) VALUES (?, ?, ?, ?)");
-    $stmt->execute([
-        $user_id,
-        $data['nom'],
-        $data['date_projet'],
-        $data['type']
-    ]);
-}
+// Vérifiez que l'utilisateur est connecté
+if (isset($_SESSION['user_id'])) {
+    $user_id = $_SESSION['user_id'];
 
-function deleteProject($pdo, $project_id) {
-    $stmt = $pdo->prepare("DELETE FROM projects WHERE id = ?");
-    $stmt->execute([$project_id]);
-}
+    // Vérification si l'action est 'insert'
+    if ($_POST['action'] == 'insert') {
+        // Insertion des projets dans la base de données
+        if (isset($_POST['projects'])) {
+            // Vérifiez si les tableaux de projets, dates et types sont définis
+            $projects = $_POST['projects'];
+            $dates = isset($_POST['dates']) ? $_POST['dates'] : [];
+            $types = isset($_POST['types']) ? $_POST['types'] : [];
 
-function updateProject($pdo, $project_id, $data) {
-    $stmt = $pdo->prepare("UPDATE projects SET nom = ?, date_projet = ?, type = ? WHERE id = ?");
-    $stmt->execute([
-        $data['nom'],
-        $data['date_projet'],
-        $data['type'],
-        $project_id
-    ]);
-}
+            // Insérer chaque projet dans la base de données
+            for ($i = 0; $i < count($projects); $i++) {
+                $projectName = $projects[$i];
+                $projectDate = isset($dates[$i]) ? $dates[$i] : '';
+                $projectType = isset($types[$i]) ? $types[$i] : '';
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $action = $_POST['action'] ?? '';
-
-    if ($action === 'insert') {
-        $user_id = htmlspecialchars($_POST['user_id'] ?? '');
-        $data = [
-            'nom' => htmlspecialchars($_POST['nom'] ?? ''),
-            'date_projet' => htmlspecialchars($_POST['date_projet'] ?? ''),
-            'type' => htmlspecialchars($_POST['type'] ?? 'personal')
-        ];
-
-        try {
-            $pdo->beginTransaction();
-            insertProject($pdo, $user_id, $data);
-            $pdo->commit();
-            echo "Project inserted for user ID: " . $user_id;
-        } catch (Exception $e) {
-            $pdo->rollBack();
-            die("Erreur lors de l'insertion du projet : " . $e->getMessage());
+                // Préparer et exécuter la requête d'insertion
+                $sql = "INSERT INTO projects (user_id, nom, date_projet, type) VALUES (?, ?, ?, ?)";
+                $stmt = $pdo->prepare($sql);
+                if ($stmt->execute([$user_id, $projectName, $projectDate, $projectType])) {
+                    echo "Le projet a été ajouté avec succès.";
+                } else {
+                    echo "Erreur lors de l'ajout du projet.";
+                }
+            }
         }
-    } elseif ($action === 'delete') {
-        $project_id = htmlspecialchars($_POST['project_id'] ?? '');
 
-        try {
-            $pdo->beginTransaction();
-            deleteProject($pdo, $project_id);
-            $pdo->commit();
-            echo "Project deleted with ID: " . $project_id;
-        } catch (Exception $e) {
-            $pdo->rollBack();
-            die("Erreur lors de la suppression du projet : " . $e->getMessage());
-        }
-    } elseif ($action === 'update') {
-        $project_id = htmlspecialchars($_POST['project_id'] ?? '');
-        $data = [
-            'nom' => htmlspecialchars($_POST['nom'] ?? ''),
-            'date_projet' => htmlspecialchars($_POST['date_projet'] ?? ''),
-            'type' => htmlspecialchars($_POST['type'] ?? 'personal')
-        ];
-
-        try {
-            $pdo->beginTransaction();
-            updateProject($pdo, $project_id, $data);
-            $pdo->commit();
-            echo "Project updated with ID: " . $project_id;
-        } catch (Exception $e) {
-            $pdo->rollBack();
-            die("Erreur lors de la modification du projet : " . $e->getMessage());
-        }
-    } else {
-        die("Action non reconnue.");
+        // Rediriger vers la page suivante (Stage)
+        header('Location: ../IHM/StageForm/stage.php');
+        exit();
     }
-} else {
-    die("Méthode de requête non supportée.");
 }
 ?>

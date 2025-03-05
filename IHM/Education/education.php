@@ -53,7 +53,7 @@
                     </div>
                     <div class="mt-6 flex justify-between">
                     <a href="../Lang/lang.php" class="bg-gray-300 hover:bg-gray-400 text-gray-700 px-6 py-3 rounded-lg">Précédent</a>
-                    <a href="../CentreIntr/interests.php" class="bg-cyan-500 text-white px-6 py-3 rounded-lg hover:bg-cyan-600">Suivant</a>
+                    <button type="submit" name="submit" class="prev bg-gray-300 hover:bg-gray-400 text-gray-700 px-6 py-3 rounded-lg focus:outline-none">Suivant</button>
                     </div>
                 </div>
         </form>

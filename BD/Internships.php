@@ -39,9 +39,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         try {
             $pdo->beginTransaction();
-            insertInternship($pdo, $user_id, $data);
+            foreach ($_POST['internshipNames'] as $key => $internshipName) {
+                $internshipData = [
+                    'nom' => $internshipName,
+                    'periode' => $_POST['internshipPeriod'][$key],
+                    'lieu' => $_POST['internshipLocation'][$key]
+                ];
+                insertInternship($pdo, $user_id, $internshipData);
+            }
             $pdo->commit();
-            echo "Internship inserted for user ID: " . $user_id;
+            // Redirection après l'insertion
+            header("Location: ../IHM/Compet/compet.php");
+            exit();
         } catch (Exception $e) {
             $pdo->rollBack();
             die("Erreur lors de l'insertion du stage : " . $e->getMessage());

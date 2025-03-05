@@ -31,17 +31,27 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if ($action === 'insert') {
         $user_id = htmlspecialchars($_POST['user_id'] ?? '');
-        $data = [
-            'institution' => htmlspecialchars($_POST['institution'] ?? ''),
-            'diplome' => htmlspecialchars($_POST['diplome'] ?? ''),
-            'annee_obtention' => htmlspecialchars($_POST['annee_obtention'] ?? '')
-        ];
+        $institutions = $_POST['educationInstitutions'] ?? [];
+        $degrees = $_POST['educationDegrees'] ?? [];
+        $years = $_POST['educationYears'] ?? [];
 
         try {
             $pdo->beginTransaction();
-            insertEducation($pdo, $user_id, $data);
+
+            // Loop through the arrays and insert each entry
+            foreach ($institutions as $index => $institution) {
+                $data = [
+                    'institution' => htmlspecialchars($institution),
+                    'diplome' => htmlspecialchars($degrees[$index] ?? ''),
+                    'annee_obtention' => htmlspecialchars($years[$index] ?? '')
+                ];
+                insertEducation($pdo, $user_id, $data);
+            }
+
             $pdo->commit();
-            echo "Education inserted for user ID: " . $user_id;
+            // Redirect to education page after insertion
+            header('Location: ../IHM/CentreIntr/interests.php');
+            exit();
         } catch (Exception $e) {
             $pdo->rollBack();
             die("Erreur lors de l'insertion de la formation : " . $e->getMessage());
@@ -53,7 +63,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $pdo->beginTransaction();
             deleteEducation($pdo, $education_id);
             $pdo->commit();
-            echo "Education deleted with ID: " . $education_id;
+            // Redirect after deletion
+            header('Location:../IHM/CentreIntr/interests.php');
+            exit();
         } catch (Exception $e) {
             $pdo->rollBack();
             die("Erreur lors de la suppression de la formation : " . $e->getMessage());
@@ -70,7 +82,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $pdo->beginTransaction();
             updateEducation($pdo, $education_id, $data);
             $pdo->commit();
-            echo "Education updated with ID: " . $education_id;
+            // Redirect after update
+            header('Location: ../IHM/CentreIntr/interests.php');
+            exit();
         } catch (Exception $e) {
             $pdo->rollBack();
             die("Erreur lors de la modification de la formation : " . $e->getMessage());

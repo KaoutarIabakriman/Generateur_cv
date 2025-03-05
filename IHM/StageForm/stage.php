@@ -40,56 +40,56 @@
         }
         ?>
         <form id="cvForm" action="../../BD/Internships.php" method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="action" value="insert">
-        <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
-            <div class="step" id="step-2">
-                <div class="grid md:grid-cols-1 gap-6">
-                    <div>
-                        <label class="block mb-3 text-sm font-medium text-cyan-700">Stages</label>
-                        <div id="internshipContainer"></div>
-                        <button type="button" class="bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-3 rounded-lg flex items-center gap-2 mt-2" onclick="addInternshipField()">
-                            <i class="fas fa-plus"></i> Ajouter un stage
-                        </button>
-                    </div>
+    <input type="hidden" name="action" value="insert">
+    <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
+    <div class="step" id="step-2">
+        <div class="grid md:grid-cols-1 gap-6">
+            <div>
+                <label class="block mb-3 text-sm font-medium text-cyan-700">Stages</label>
+                <div id="internshipContainer"></div>
+                <button type="button" class="bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-3 rounded-lg flex items-center gap-2 mt-2" onclick="addInternshipField()">
+                    <i class="fas fa-plus"></i> Ajouter un stage
+                </button>
+            </div>
+        </div>
+        <div class="mt-6 flex justify-between">
+            <a href="../Projects/projects.php" class="prev bg-gray-300 hover:bg-gray-400 text-gray-700 px-6 py-3 rounded-lg focus:outline-none">Précédent</a>
+            <button type="submit" name="submit" class="prev bg-gray-300 hover:bg-gray-400 text-gray-700 px-6 py-3 rounded-lg focus:outline-none">Suivant</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    function addInternshipField() {
+        const internshipContainer = document.getElementById('internshipContainer');
+        const internshipField = document.createElement('div');
+        internshipField.className = 'form-group border p-4 mb-4 rounded-lg shadow-sm bg-gray-100';
+        internshipField.innerHTML = `
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label class="font-medium text-cyan-700 block mb-2">Nom du stage</label>
+                    <input type="text" name="internshipNames[]" class="w-full px-4 py-2 border-2 border-cyan-500 rounded-xl focus:ring-2 focus:ring-cyan-300 outline-none" required>
                 </div>
-                <div class="mt-6 flex justify-between">
-                    <a href="../Projects/projects.php" class="prev bg-gray-300 hover:bg-gray-400 text-gray-700 px-6 py-3 rounded-lg focus:outline-none">Précédent</a>
-                    <a href="../Compet/compet.php" class="prev bg-gray-300 hover:bg-gray-400 text-gray-700 px-6 py-3 rounded-lg focus:outline-none">Suivant</a>
+                <div>
+                    <label class="font-medium text-cyan-700 block mb-2">Période</label>
+                    <input type="text" name="internshipPeriod[]" class="w-full px-4 py-2 border-2 border-cyan-500 rounded-xl focus:ring-2 focus:ring-cyan-300 outline-none" placeholder="Ex: Juin - Août 2023" required>
+                </div>
+                <div>
+                    <label class="font-medium text-cyan-700 block mb-2">Lieu</label>
+                    <input type="text" name="internshipLocation[]" class="w-full px-4 py-2 border-2 border-cyan-500 rounded-xl focus:ring-2 focus:ring-cyan-300 outline-none" required>
                 </div>
             </div>
-        </form>
-    </div>
+            <button type="button" class="bg-blue-500 hover:bg-blue-800 text-white py-2 px-4 rounded-lg flex items-center gap-2 mt-2" onclick="removeField(this)">
+                <i class="fas fa-trash"></i> Supprimer
+            </button>
+        `;
+        internshipContainer.appendChild(internshipField);
+    }
 
-    <script>
-        function addInternshipField() {
-            const internshipContainer = document.getElementById('internshipContainer');
-            const internshipField = document.createElement('div');
-            internshipField.className = 'form-group border p-4 mb-4 rounded-lg shadow-sm bg-gray-100';
-            internshipField.innerHTML = `
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div>
-                        <label class="font-medium text-cyan-700 block mb-2">Nom du stage</label>
-                        <input type="text" name="internshipNames[]" class="w-full px-4 py-2 border-2 border-cyan-500 rounded-xl focus:ring-2 focus:ring-cyan-300 outline-none" required>
-                    </div>
-                    <div>
-                        <label class="font-medium text-cyan-700 block mb-2">Période</label>
-                        <input type="text" name="internshipPeriod[]" class="w-full px-4 py-2 border-2 border-cyan-500 rounded-xl focus:ring-2 focus:ring-cyan-300 outline-none" placeholder="Ex: Juin - Août 2023" required>
-                    </div>
-                    <div>
-                        <label class="font-medium text-cyan-700 block mb-2">Lieu</label>
-                        <input type="text" name="internshipLocation[]" class="w-full px-4 py-2 border-2 border-cyan-500 rounded-xl focus:ring-2 focus:ring-cyan-300 outline-none" required>
-                    </div>
-                </div>
-                <button type="button" class="bg-blue-500 hover:bg-blue-800 text-white py-2 px-4 rounded-lg flex items-center gap-2 mt-2" onclick="removeField(this)">
-                    <i class="fas fa-trash"></i> Supprimer
-                </button>
-            `;
-            internshipContainer.appendChild(internshipField);
-        }
+    function removeField(button) {
+        button.parentElement.remove();
+    }
+</script>
 
-        function removeField(button) {
-            button.parentElement.remove();
-        }
-    </script>
 </body>
 </html>

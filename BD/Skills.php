@@ -1,78 +1,63 @@
 <?php
 require 'connexion.php';
 
-function insertSkill($pdo, $user_id, $data) {
+// Fonction pour insérer les compétences dans la base de données
+function insertSkill($pdo, $user_id, $skill_name, $skill_type) {
     $stmt = $pdo->prepare("INSERT INTO skills (user_id, type, skill_name) VALUES (?, ?, ?)");
-    $stmt->execute([
-        $user_id,
-        $data['type'],
-        $data['skill_name']
-    ]);
-}
-
-function deleteSkill($pdo, $skill_id) {
-    $stmt = $pdo->prepare("DELETE FROM skills WHERE id = ?");
-    $stmt->execute([$skill_id]);
-}
-
-function updateSkill($pdo, $skill_id, $data) {
-    $stmt = $pdo->prepare("UPDATE skills SET type = ?, skill_name = ? WHERE id = ?");
-    $stmt->execute([
-        $data['type'],
-        $data['skill_name'],
-        $skill_id
-    ]);
+    $stmt->execute([$user_id, $skill_type, $skill_name]);
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $action = $_POST['action'] ?? '';
+    $action = $_POST['action'] ?? '';  // Récupérer l'action depuis le formulaire
 
     if ($action === 'insert') {
-        $user_id = htmlspecialchars($_POST['user_id'] ?? '');
-        $data = [
-            'type' => htmlspecialchars($_POST['type'] ?? ''),
-            'skill_name' => htmlspecialchars($_POST['skill_name'] ?? '')
-        ];
+        // Sanitize et valider l'ID de l'utilisateur
+        $user_id = $_POST['user_id'] ?? '';
 
+        if (empty($user_id)) {
+            die("ID utilisateur requis.");
+        }
+
+        // Vérifier si les compétences techniques et comportementales sont envoyées
+        if (empty($_POST['technicalSkills']) && empty($_POST['behavioralSkills'])) {
+            die("Aucune compétence n'a été fournie.");
+        }
+
+        // Insérer les compétences
         try {
+            // Démarrer une transaction
             $pdo->beginTransaction();
-            insertSkill($pdo, $user_id, $data);
+
+            // Insérer les compétences techniques
+            if (!empty($_POST['technicalSkills'])) {
+                foreach ($_POST['technicalSkills'] as $skill_name) {
+                    insertSkill($pdo, $user_id, $skill_name, 'technical');
+                }
+            }
+
+            // Insérer les compétences comportementales
+            if (!empty($_POST['behavioralSkills'])) {
+                foreach ($_POST['behavioralSkills'] as $skill_name) {
+                    insertSkill($pdo, $user_id, $skill_name, 'behavioral');
+                }
+            }
+
+            // Valider la transaction
             $pdo->commit();
-            echo "Skill inserted for user ID: " . $user_id;
+
+            // Rediriger après l'insertion réussie
+            header("Location: ../IHM/Lang/lang.php");
+            exit();
+
         } catch (Exception $e) {
+            // Annuler la transaction en cas d'erreur
             $pdo->rollBack();
-            die("Erreur lors de l'insertion de la compétence : " . $e->getMessage());
-        }} elseif ($action === 'delete') {
-            $skill_id = htmlspecialchars($_POST['skill_id'] ?? '');
-    
-            try {
-                $pdo->beginTransaction();
-                deleteSkill($pdo, $skill_id);
-                $pdo->commit();
-                echo "Skill deleted with ID: " . $skill_id;
-            } catch (Exception $e) {
-                $pdo->rollBack();
-                die("Erreur lors de la suppression de la compétence : " . $e->getMessage());
-            }
-        } elseif ($action === 'update') {
-            $skill_id = htmlspecialchars($_POST['skill_id'] ?? '');
-            $data = [
-                'type' => htmlspecialchars($_POST['type'] ?? ''),
-                'skill_name' => htmlspecialchars($_POST['skill_name'] ?? '')
-            ];
-            try {
-                $pdo->beginTransaction();
-                updateSkill($pdo, $skill_id, $data);
-                $pdo->commit();
-                echo "Skill updated with ID: " . $skill_id;
-            } catch (Exception $e) {
-                $pdo->rollBack();
-                die("Erreur lors de la modification de la compétence : " . $e->getMessage());
-            }
-        } else {
-            die("Action non reconnue.");
+            die("Erreur lors de l'insertion des compétences : " . $e->getMessage());
         }
     } else {
-        die("Méthode de requête non supportée.");
+        die("Action non reconnue.");
     }
-    ?>
+} else {
+    die("Méthode de requête non prise en charge.");
+}
+?>
