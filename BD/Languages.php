@@ -28,19 +28,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $action = $_POST['action'] ?? '';
 
     if ($action === 'insert') {
-        // Récupérer l'ID de l'utilisateur
+        
         $user_id = htmlspecialchars($_POST['user_id'] ?? '');
 
-        // Récupérer les langues et les niveaux envoyés
+       
         $languages = $_POST['languages'] ?? [];
         $languageLevels = $_POST['languageLevels'] ?? [];
 
         try {
             $pdo->beginTransaction();
 
-            // Insérer chaque langue et niveau dans la base de données
+            
             foreach ($languages as $index => $langue) {
-                $niveau = $languageLevels[$index] ?? 'A1'; // Valeur par défaut A1
+                $niveau = $languageLevels[$index] ?? 'A1'; 
                 $data = [
                     'langue' => htmlspecialchars($langue),
                     'niveau' => htmlspecialchars($niveau)
@@ -51,9 +51,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $pdo->commit();
             echo "Langues insérées pour l'utilisateur ID : " . $user_id;
 
-            // Rediriger vers education.php après insertion
+            
             header("Location: ../IHM/Education/education.php");
-            exit; // Toujours appeler exit après header()
+            exit; 
 
         } catch (Exception $e) {
             $pdo->rollBack();
@@ -69,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             echo "Langue supprimée avec l'ID : " . $language_id;
 
             header("Location: ../IHM/Education/education.php");
-            exit; // Toujours appeler exit après header()
+            exit;
 
         } catch (Exception $e) {
             $pdo->rollBack();
@@ -89,7 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             echo "Langue mise à jour avec l'ID : " . $language_id;
 
             header("Location: ../IHM/Education/education.php");
-            exit; // Toujours appeler exit après header()
+            exit; 
 
         } catch (Exception $e) {
             $pdo->rollBack();

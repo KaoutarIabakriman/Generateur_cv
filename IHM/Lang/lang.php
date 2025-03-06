@@ -45,7 +45,7 @@
 
             <div class="step" id="step-3">
                 
-                <!-- Langues -->
+             
                 <div class="mt-6">
                     <label class="block text-sm font-medium text-cyan-700">Langues</label>
                     <button type="button" class="bg-cyan-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-cyan-600" onclick="addLanguageField()">
@@ -54,7 +54,7 @@
                 </div>
                 <div id="languageContainer" class="mt-4 space-y-4"></div>
 
-                <!-- Boutons navigation -->
+               
                 <div class="mt-6 flex justify-between">
                     <a href="../Compet/compet.php" class="bg-gray-300 hover:bg-gray-400 text-gray-700 px-6 py-3 rounded-lg">Précédent</a>
                     <button type="submit" name="submit" class="prev bg-gray-300 hover:bg-gray-400 text-gray-700 px-6 py-3 rounded-lg focus:outline-none">Suivant</button>

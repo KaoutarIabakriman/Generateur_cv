@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 insertInternship($pdo, $user_id, $internshipData);
             }
             $pdo->commit();
-            // Redirection après l'insertion
+            
             header("Location: ../IHM/Compet/compet.php");
             exit();
         } catch (Exception $e) {

@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         try {
             $pdo->beginTransaction();
 
-            // Loop through the arrays and insert each entry
+            
             foreach ($institutions as $index => $institution) {
                 $data = [
                     'institution' => htmlspecialchars($institution),
@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             }
 
             $pdo->commit();
-            // Redirect to education page after insertion
+           
             header('Location: ../IHM/CentreIntr/interests.php');
             exit();
         } catch (Exception $e) {
@@ -63,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $pdo->beginTransaction();
             deleteEducation($pdo, $education_id);
             $pdo->commit();
-            // Redirect after deletion
+           
             header('Location:../IHM/CentreIntr/interests.php');
             exit();
         } catch (Exception $e) {
@@ -82,7 +82,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $pdo->beginTransaction();
             updateEducation($pdo, $education_id, $data);
             $pdo->commit();
-            // Redirect after update
+            
+            
             header('Location: ../IHM/CentreIntr/interests.php');
             exit();
         } catch (Exception $e) {

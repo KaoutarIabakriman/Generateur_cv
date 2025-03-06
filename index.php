@@ -12,7 +12,7 @@
     <header class="w-full bg-white shadow-md hover:shadow-lg transition-shadow duration-300 border-b border-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16 md:h-20">
-                <!-- Logo avec animation -->
+               
                 <div class="flex items-center space-x-3 group">
                     <div class="w-7 h-7 bg-gradient-to-tr from-cyan-400 to-cyan-300 rounded-lg transform group-hover:rotate-12 transition-transform duration-300"></div>
                     <span class="text-xl font-bold bg-gradient-to-r from-cyan-600 to-cyan-300 bg-clip-text text-transparent">
@@ -20,7 +20,7 @@
                     </span>
                 </div>
     
-                <!-- Navigation Links stylisés -->
+                
                 <nav class="hidden md:flex items-center space-x-8">
                     <a href="../Partie1/index.php" class="relative text-gray-600 hover:text-gray-900 px-2 py-1 transition-all duration-200
                                       before:absolute before:-bottom-1 before:left-0 before:w-0 before:h-0.5 before:bg-gradient-to-r from-cyan-400 to-cyan-300 before:transition-all before:duration-300
@@ -39,7 +39,7 @@
                     </a>
                 </nav>
     
-                <!-- Bouton amélioré -->
+              
                 <div class="flex items-center space-x-4">
                     <a href="Traitement/check_login.php" class="inline-flex items-center justify-center 
            text-white bg-gradient-to-r from-cyan-400 to-cyan-200 
@@ -77,12 +77,12 @@
                     Remplissez le formulaire et téléchargez votre CV en PDF instantanément.
                 </p>
                 <div class="flex justify-center">
-                    <a href="Traitement/check_login.php" class="inline-flex items-center justify-center 
-           text-white bg-gradient-to-r from-cyan-400 to-cyan-300 
-           hover:from-cyan-500 hover:to-cyan-400 
+                    <a href="IHM/admindashboard/admindashboard.php" class="inline-flex items-center justify-center 
+           text-white bg-gradient-to-r from-purple-600 to-indigo-600 
+           hover:from-purple-700 hover:to-indigo-700 
            transition-all duration-300 px-6 py-3 ml-72
            rounded-lg text-lg shadow-md transform hover:scale-105">
-                        📄 Générer votre CV
+                        👑 Vous êtes un admin
                     </a>
                 </div>
                 
@@ -111,6 +111,25 @@
             </div>
         </div>
     </section>
+    <footer class="mt-20 xl:mt-32 mx-auto w-full relative text-center bg-cyan-500 text-white">
+    <div class="px-6 py-8 md:py-14 xl:pt-20 xl:pb-12">
+    <h3 class="font-semibold text-xl text-white text-center leading-snug py-4 transition-colors duration-300 hover:text-gray-300">
+    Créez un CV Professionnel Facilement en quelques minutes. Remplissez le formulaire et téléchargez votre CV en PDF instantanément.</h3>
 
+
+        <a class="mt-8 xl:mt-12 px-12 py-5 text-lg font-medium leading-tight inline-block bg-white text-cyan-500 rounded-full shadow-xl border border-transparent hover:bg-cyan-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-sky-999 focus:ring-sky-500"
+            href="index.php">Get
+            started</a>
+        <div class="mt-14 xl:mt-20">
+            <nav class="flex flex-wrap justify-center text-lg font-medium">
+                <div class="px-5 py-2 hover:text-gray-300 hover:underline  transition-colors duration-300"><a href="#">Home</a></div>
+                <div class="px-5 py-2 hover:text-gray-300 hover:underline  transition-colors duration-300"><a href="#">About</a></div>
+                <div class="px-5 py-2 hover:text-gray-300 hover:underline  transition-colors duration-300"><a href="#">Services</a></div>
+                <div class="px-5 py-2 hover:text-gray-300 hover:underline  transition-colors duration-300"><a href="#">Contact</a></div>
+            </nav>
+            <p class="mt-7 text-base">© 2025 PhpMates</p>
+        </div>
+    </div>
+</footer>
 </body>
 </html>

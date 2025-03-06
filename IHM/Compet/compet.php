@@ -46,7 +46,6 @@
 
     <div class="step" id="step-3">
         
-        <!-- Type de compétence -->
         <div class="mt-6">
             <label class="block text-sm font-medium text-cyan-700">Type de compétence</label>
             <select id="competencesType" class="w-full px-4 py-3 border-2 border-cyan-500 rounded-xl focus:ring-2 focus:ring-cyan-300" onchange="addSkillField()">
@@ -57,7 +56,7 @@
         </div>
         <div id="skillsContainer" class="mt-4 space-y-4"></div>
 
-        <!-- Boutons navigation -->
+      
         <div class="mt-6 flex justify-between">
             <a href="../StageForm/stage.php" class="prev bg-gray-300 hover:bg-gray-400 text-gray-700 px-6 py-3 rounded-lg focus:outline-none">Précédent</a>
             <button type="submit" name="submit" class="prev bg-gray-300 hover:bg-gray-400 text-gray-700 px-6 py-3 rounded-lg focus:outline-none">Suivant</button>

@@ -39,14 +39,13 @@
             exit();
         }
 
-        // Get the user information from the database
+       
         require_once '../../BD/Connexion.php';
         $user_id = $_SESSION['user_id'];
         $stmt = $pdo->prepare("SELECT nom, prenom, email FROM users WHERE id = ?");
         $stmt->execute([$user_id]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // If user not found, redirect to login
         if (!$user) {
             header('Location: ../Authentification/login.php');
             exit();
@@ -66,7 +65,7 @@
             </div>
         </div>
 
-        <!-- Project container -->
+      
         <div id="projectContainer" class="mt-4"></div>
 
         <div class="mt-6 flex justify-between">

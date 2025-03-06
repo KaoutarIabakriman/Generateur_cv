@@ -40,14 +40,14 @@
             exit();
         }
         
-        // Get the user information from the database
+        
         require_once '../../BD/Connexion.php';
         $user_id = $_SESSION['user_id'];
         $stmt = $pdo->prepare("SELECT nom, prenom, email FROM users WHERE id = ?");
         $stmt->execute([$user_id]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         
-        // If user not found, redirect to login
+        
         if (!$user) {
             header('Location: ../Authentification/login.php');
             exit();
@@ -88,7 +88,7 @@
             <div>
                 <label class="block mb-3 text-sm font-medium text-cyan-700" for="photo">Photo (upload)</label>
                 <div class="relative">
-                    <input type="file" name="photo" accept="image/*" class="w-full px-4 py-3 border-2 border-cyan-500 rounded-xl bg-transparent focus:outline-none focus:ring-2 focus:ring-cyan-500 pl-10">
+                    <input type="file" name="photo" accept="image/jpeg, image/png" class="w-full px-4 py-3 border-2 border-cyan-500 rounded-xl bg-transparent focus:outline-none focus:ring-2 focus:ring-cyan-500 pl-10">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-cyan-500 absolute left-3 top-1/2 transform -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>

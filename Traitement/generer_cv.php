@@ -75,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         ]);
         $user_id = $pdo->lastInsertId();
 
-        // Insertion des projets
+        
         foreach ($data['projets']['noms'] as $index => $nom) {
             if(!empty($nom)) {
                 $stmt = $pdo->prepare("INSERT INTO projects (user_id, nom, date_projet, type)
